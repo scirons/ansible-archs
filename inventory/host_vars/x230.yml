@@ -1,0 +1,154 @@
+# Host configuration
+ansible_user: sciron
+ansible_connection: local
+
+# Hostname
+hostname: x230
+
+# User
+user:
+  name: sciron
+  group: users
+  shell: /bin/sh
+  folders:
+  - dox
+  - pix
+  - phn
+  - wrk
+  dotfiles: https://github.com/scirons/dotfiles.git
+  dwm:
+  dwmblocks:
+  st:
+
+
+packages:
+  install:
+
+# Essential
+  - neovim
+  - cryptsetup
+  - openssh
+  - man-db
+  - testdisk
+  - hdparm
+  - libnotify
+  - ntfs-3g
+  - lvm2
+  - nmap
+  - usbutils
+  - htop-vim
+  - dosfstools
+  - arp-scan
+  - mpd
+  - mpc
+  - mpv
+  - pipewire
+  - pipewire-pulse
+  - pamixer
+  - dnsmasq
+  - rsync
+  - cups
+  - cups-pdf
+  - x2x-git
+  - curl
+  - wget
+  - whois
+
+# Xorg
+  - xorg-server
+  - xorg-xwininfo
+  - xorg-xinit
+  - xorg-xbacklight
+  - xorg-xdpyinfo
+  - xorg-xprop
+  - xcape
+  - xclip
+  - xdotool
+
+# Fonts
+  - terminus-font
+  - ttf-linux-libertine
+
+# Dev
+  - hugo
+  - texlive-most
+  - x3270
+  - android-tools
+  - r
+  - virt-manager
+  - libvirt
+  - qemu
+  - gns3-gui
+  - gns3-server
+  - winbox
+
+
+# Web
+  - brave-bin
+  - firefox
+  - buku
+  - buku-dmenu
+
+# Security
+  - pass
+  - pass-otp
+  - gnome-keyring
+
+# Applications
+  - pacwall-git
+  - qbittorrent
+  - mutt-wizard-git
+  - arandr
+  - bc
+  - hledger
+  - dunst
+  - exfat-utils
+  - sxiv
+  - xwallpaper
+  - ffmpeg
+  - ncmpcpp
+  - newsboat
+  - pulsemixer
+  - maim
+  - unclutter
+  - unrar
+  - unzip
+  - lynx
+  - lxappearance
+  - yt-dlp
+  - zathura
+  - zathura-pdf-mupdf
+  - zathura-djvu
+  - poppler
+  - mediainfo
+  - neofetch
+  - atool
+  - fzf
+  - slock
+  - zbar
+  - sane
+  - ffmpegthumbnailer
+  - electrum
+  - ueberzug
+  - syncthing
+  - translate-shell
+  - socat
+  - moreutils
+  - python-qdarkstyle
+  - bat
+  - abook
+  - sc-im
+  - gotop
+  - gallery-dl
+  - lf-git
+  - zsh-fast-syntax-highlighting-git
+  - task-spooler
+  - simple-mtpfs
+  - gtk-theme-arc-gruvbox-git
+  - sc-im
+
+system:
+  locale:
+    - en_US.UTF-8
+  timezone: Europe/Rome
+  keyboard: en

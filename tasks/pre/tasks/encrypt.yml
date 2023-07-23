@@ -1,0 +1,14 @@
+- name: Encrypt partition
+  shell: "cryptsetup luksFormat {{ disk-by-id }} <<< {{ luks_pass }}"
+
+
+- name: Get LUKS UUID
+  shell: "cryptsetup luksUUID {{ disk-by-id }}"
+  register: uuid_out
+
+- name: Update crypttab for persistent unlock
+  crypttab:
+    name: "{{ luks_name }}"
+    backing_device: "UUID={{ uuid_out.stdout }}"
+    password: none
+    state: present

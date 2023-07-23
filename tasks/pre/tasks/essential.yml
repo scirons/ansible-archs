@@ -1,0 +1,5 @@
+- name: Abort if not on arch 
+  fail: 
+      msg: "Host is not booted into the Arch install media"
+  when: ansible_nodename != 'archiso'
+  

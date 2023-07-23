@@ -1,0 +1,21 @@
+- name: Set pacman mirrorlist
+  ansible.builtin.copy:
+    src: mirrorlist
+    dest: /etc/pacman.d/
+
+- name: Update pacman cache
+  pacman:
+    update_cache: true
+    register: result
+    until: result is success
+    retries: 10
+    delay: 2
+
+- name: Full system upgrade
+  pacman:
+    update_cache: true
+    upgrade: true
+    register: result
+    until: result is success
+    retries: 10
+    delay: 2

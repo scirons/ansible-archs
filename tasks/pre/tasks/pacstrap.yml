@@ -1,0 +1,11 @@
+- name: Installs base system using pacstrap
+  command: pacstrap /mnt base base-devel linux linux-firmware vim ansible openssh networkmanager reflector
+
+- name: Restrict reflector to only use IT mirrors
+  ansible.builtin.lineinfile:
+  insertafter: \# --country
+  line: --country "Italy"
+  path: /mnt/etc/xdg/reflector/reflector.conf
+
+- name: Populates base system fstab with configured storage devices
+  shell: genfstab -U -p /mnt >> /mnt/etc/fstab

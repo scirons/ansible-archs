@@ -1,0 +1,101 @@
+---
+- name: Wipe install drive and all its partitions
+  command: find /dev -wholename "{{ install_drive }}*" -exec wipefs --force --all {} \;
+
+- name: Create boot partition
+  community.general.parted:
+    device: {{ drive_install }}
+    number: 1
+    label: gpt
+    part_end: 512MB
+    name: boot
+    state: present
+    fs_type: vfat
+
+# Swap Goes here
+
+- name: Create root partition
+  community.general.parted:
+    device: {{ drive_install }}
+    number: 2
+    label: gpt
+    part_start: 512MB
+    part_end: 60GB
+    name: root
+    state: present
+
+- name: Create home partition
+  community.general.parted:
+    device: {{ drive_install}}
+    number: 3
+    label: gpt
+    part_start: 60GB
+    name: home
+    state: present
+
+# Needs to insert password here
+- name: Setup LUKS encryption for root
+  block:
+  - name: Copy key
+    copy:
+      src: '{{ luks_keyfile }}'
+      dest: '/etc/luks/root.key'
+
+- name: Create and open LUKS mapper for root
+  luks_device:
+    device: '{{ drive_install }}2'
+    name: cryptroot
+    state: opened
+
+- name: Create and open LUKS mapper for home
+  luks_device:
+    device: '{{ drive_install }}3'
+    name: crypthome
+    state: opened
+
+- name: Make filesystems
+  block:
+    - name: Make ext4 filesystem for root
+      filesystem:
+        dev: '/dev/mapper/cryptroot'
+        fstype: ext4
+        force: yes
+
+    - name: Make ext4 filesystem for  home
+      filesystem:
+        dev: '/dev/mapper/crypthome'
+        fstype: ext4
+        force: yes
+
+- name: Mount filesystems
+  block:
+    - name: Mount root
+      mount:
+      path: /mnt
+      src: /dev/mapper/cryptroot
+      fstype: ext4
+      state: mounted
+
+    - name: Create mountpoint for home
+      file:
+        path: /mnt/home
+        state: directory
+
+    - name: Mount home
+      mount:
+      path: /mnt/home
+      src: /dev/mapper/crypthome
+      fstype: ext4
+      state: mounted
+
+    - name: Create mountpoint for boot
+      file:
+        path: /mnt/boot
+        state: directory
+
+    - name: Mount boot filesystem
+      mount:
+      path: /mnt/boot
+      src: '{{ drive_install }}1'
+      fstype: vfat
+      state: mounted

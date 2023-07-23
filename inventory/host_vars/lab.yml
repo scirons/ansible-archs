@@ -1,0 +1,52 @@
+# Host configuration
+ansible_user: sciron
+ansible_connection: local
+
+# Hostname
+hostname: x230
+
+# User
+user:
+  name: sciron
+  group: users
+  shell: /bin/sh
+  folders:
+  - dox
+  - pix
+  - phn
+  - wrk
+  dotfiles: https://github.com/scirons/dotfiles.git
+  dwm:
+  dwmblocks:
+  st:
+
+
+packages:
+  install:
+
+# Essential
+  - neovim
+  - cryptsetup
+  - openssh
+  - man-db
+  - hdparm
+  - libnotify
+  - ntfs-3g
+  - nmap
+  - usbutils
+  - htop-vim
+  - dosfstools
+  - arp-scan
+  - dnsmasq
+  - rsync
+  - x2x-git
+  - curl
+  - wget
+  - whois
+
+
+system:
+  locale:
+    - en_US.UTF-8
+  timezone: Europe/Rome
+  keyboard: en
